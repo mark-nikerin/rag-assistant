@@ -4,10 +4,12 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "nikerin", email = "nikerin@mercurydevelopment.com" }
+    { name = "mark", email = "mrnikerin@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "rag-shared",
+]
 
 [project.scripts]
 ingestion-service = "ingestion_service:main"
@@ -15,3 +17,6 @@ ingestion-service = "ingestion_service:main"
 [build-system]
 requires = ["uv_build>=0.12.17,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+rag-shared = { workspace = true }

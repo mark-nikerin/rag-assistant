@@ -102,6 +102,12 @@ wheels = [
 name = "ingestion-service"
 version = "0.1.0"
 source = { editable = "ingestion_service" }
+dependencies = [
+    { name = "rag-shared" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "rag-shared", editable = "shared" }]
 
 [[package]]
 name = "mako"

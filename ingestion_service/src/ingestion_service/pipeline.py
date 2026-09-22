@@ -1,12 +1,17 @@
-﻿import hashlib
+﻿import asyncio
+import hashlib
 from dataclasses import dataclass
 from datetime import datetime, timezone
+
+from ingestion_service.embedding import get_embedding, EMBEDDING_MODEL
+from ingestion_service.tokenization import count_tokens
+
 from pathlib import Path
+
+from rag_shared.models import SourceFile, Document, Chunk
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
-
-from rag_shared.models import SourceFile, Document, Chunk
 
 @dataclass
 class FileInfo:
@@ -59,8 +64,7 @@ async def upsert_source_file(
 async def create_document_and_chunks(
         session: AsyncSession,
         source_file: SourceFile,
-        content: str,
-        embedding_model: str = "text-embedding-3-large",
+        content: str
 ) -> list[Chunk]:
     paragraphs = [p.strip() for p in content.split("\n\n") if p.strip()]
 
@@ -75,14 +79,16 @@ async def create_document_and_chunks(
 
     chunks: list[Chunk] = []
     for idx, paragraph in enumerate(paragraphs):
+        embedding_vector = await asyncio.to_thread(get_embedding, paragraph)
+
         chunk = Chunk(
             document_id=document.id,
             chunk_index=idx,
             content=paragraph,
             content_hash=hashlib.sha256(paragraph.encode()).hexdigest(),
-            token_count=len(paragraph.split()),
-            embedding=None,
-            embedding_model=embedding_model,
+            token_count=count_tokens(paragraph),
+            embedding=embedding_vector,
+            embedding_model=EMBEDDING_MODEL,
             metadata_={},
             is_active=True,
         )

@@ -1,0 +1,19 @@
+[project]
+name = "rag-assistant"
+version = "0.1.0"
+description = "RAG AI Assistant"
+authors = [
+    { name = "mark", email = "mrnikerin@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+rag-assistant = "rag_assistant:main"
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.workspace]
+members = ["shared", "ingestion_service", "assistant_service", "eval"]

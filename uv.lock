@@ -1,0 +1,37 @@
+version = 1
+revision = 3
+requires-python = ">=3.14"
+
+[manifest]
+members = [
+    "assistant-service",
+    "eval",
+    "ingestion-service",
+    "rag-assistant",
+    "rag-shared",
+]
+
+[[package]]
+name = "assistant-service"
+version = "0.1.0"
+source = { editable = "assistant_service" }
+
+[[package]]
+name = "eval"
+version = "0.1.0"
+source = { editable = "eval" }
+
+[[package]]
+name = "ingestion-service"
+version = "0.1.0"
+source = { editable = "ingestion_service" }
+
+[[package]]
+name = "rag-assistant"
+version = "0.1.0"
+source = { editable = "." }
+
+[[package]]
+name = "rag-shared"
+version = "0.1.0"
+source = { editable = "shared" }

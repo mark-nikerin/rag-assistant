@@ -30,7 +30,7 @@ class FileDecision:
 async def upsert_source_file(
     session: AsyncSession,
     file_info: FileInfo,
-    embedding_model: str = "text-embedding-3-large",
+    embedding_model: str = EMBEDDING_MODEL,
     chunking_strategy: str = "semantic_v1",
 ) -> SourceFile:
     stmt = select(SourceFile).where(
